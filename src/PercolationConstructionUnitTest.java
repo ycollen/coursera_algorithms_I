@@ -17,10 +17,12 @@ public class PercolationConstructionUnitTest {
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void testExceptionMinusOne() throws java.lang.IllegalArgumentException {
 		Percolation myPercolation = new Percolation(-1);
+		myPercolation.isOpen(0, 0);
 	}
 
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void testExceptionZero() throws java.lang.IllegalArgumentException {
 		Percolation myPercolation = new Percolation(0);
+		myPercolation.isOpen(0, 0);
 	}
 }
