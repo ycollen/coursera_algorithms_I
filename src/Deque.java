@@ -1,5 +1,3 @@
-package dequeAndRandomizedQueues;
-
 import java.util.Iterator;
 
 public class Deque<Item> implements Iterable<Item> {
@@ -69,7 +67,7 @@ public class Deque<Item> implements Iterable<Item> {
 		return currentLast.item;
 	}
 
-	class Node {
+	private class Node {
 		public Item item;
 		public Node next;
 		public Node previous;
@@ -79,7 +77,7 @@ public class Deque<Item> implements Iterable<Item> {
 		return new DequeIterator();
 	}
 
-	class DequeIterator implements Iterator<Item> {
+	private class DequeIterator implements Iterator<Item> {
 		public DequeIterator() {
 			current = first;
 		}

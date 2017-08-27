@@ -1,4 +1,4 @@
-package dequeAndRandomizedQueues;
+
 
 import java.util.Iterator;
 import edu.princeton.cs.algs4.StdRandom;
@@ -65,9 +65,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	}
 
 	private Item dequeue(int i) {
-		System.out.println("dequeuing " + i);
-		System.out.println("capacity " + capacity);
-		System.out.println("nbElts " + this.size());
+		//System.out.println("dequeuing " + i);
+		//System.out.println("capacity " + capacity);
+		//System.out.println("nbElts " + this.size());
 		Item item = array[i];
 		array[i] = null;
 		nbElts--;
@@ -82,7 +82,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		// shrink if quarter empty
 		if (!this.isEmpty() && capacity / nbElts > 3) {
 			// shrink
-			System.out.println("shrinking...");
+			// System.out.println("shrinking...");
 			Item[] tmp = (Item[]) new Object[capacity / 4];
 			// point to after last item in tmp
 			int j = 0;
@@ -126,7 +126,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		return new RandomizedQueueIterator(this);
 	}
 
-	class RandomizedQueueIterator implements Iterator<Item> {
+	private class RandomizedQueueIterator implements Iterator<Item> {
 
 		public RandomizedQueueIterator(RandomizedQueue<Item> randomizedQueue) {
 			iteratorArray = (Item[]) new Object[randomizedQueue.size()];
@@ -143,7 +143,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 				this.iteratorArray[k] = copy.dequeue();
 				k++;
 			}
-			System.out.println("finished building iterator");
+			// System.out.println("finished building iterator");
 		}
 
 		public boolean hasNext() {

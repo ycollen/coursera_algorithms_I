@@ -1,12 +1,10 @@
-package dequeAndRandomizedQueues.test;
+
 
 import static org.junit.Assert.*;
 
 import java.util.Iterator;
 
 import org.junit.Test;
-
-import dequeAndRandomizedQueues.Deque;
 
 public class DequeTest {
 
