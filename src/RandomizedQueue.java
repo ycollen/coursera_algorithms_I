@@ -1,5 +1,4 @@
 
-
 import java.util.Iterator;
 import edu.princeton.cs.algs4.StdRandom;
 
@@ -16,12 +15,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		return nbElts;
 	}
 
-	public void enqueue(Item item) throws java.lang.IllegalArgumentException {
+	public void enqueue(Item item) {
 		if (item == null) {
 			throw new java.lang.IllegalArgumentException("Trying to enqueue null item");
 		}
 		// check if full, resize
-		if (last == capacity) {
+		if (tail == capacity) {
 			// if there are holes, compact before resizing
 			if (nbElts < capacity) {
 				this.compact();
@@ -32,7 +31,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 			}
 		}
 		// add item at last position and increment last
-		array[last++] = item;
+		array[tail++] = item;
 		this.nbElts++;
 	}
 
@@ -41,7 +40,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		// iterate through from position 0 to last item
 		// pointer to next element after last in tmp array
 		int j = 0;
-		for (int i = 0; i < last; i++) {
+		for (int i = 0; i < tail; i++) {
 			// if an item is present copy it
 			if (array[i] != null) {
 				tmp[j] = array[i];
@@ -50,35 +49,44 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		}
 		array = tmp;
 		// update last pointer
-		last = j;
+		tail = j;
 	}
 
-	public Item dequeue() throws java.util.NoSuchElementException {
+	public Item dequeue() {
 		if (this.isEmpty()) {
 			throw new java.util.NoSuchElementException("Trying to dequeue from an empty queue");
 		}
-		int i = StdRandom.uniform(last);
+		//System.out.println("tail = " + tail);
+
+		//if (tail == 0) {
+		//	System.out.println("tail = " + tail);
+		//}
+		int i = StdRandom.uniform(tail);
 		while (array[i] == null) {
-			i = StdRandom.uniform(last);
+			i = StdRandom.uniform(tail);
 		}
 		return dequeue(i);
 	}
 
 	private Item dequeue(int i) {
-		//System.out.println("dequeuing " + i);
-		//System.out.println("capacity " + capacity);
-		//System.out.println("nbElts " + this.size());
+		// System.out.println("dequeuing " + i);
+		// System.out.println("capacity " + capacity);
+		// System.out.println("nbElts " + this.size());
 		Item item = array[i];
 		array[i] = null;
+		
+		//System.out.println("tail value before dequeueing = " + tail);
+		//System.out.println("Dequeuing " + i + " nb elts = " + nbElts + " capacity = " + capacity);
 		nbElts--;
 		// if last item of queue was removed, update last pointer item
-		if (last == i + 1) {
-			last--;
+		if (tail == i + 1) {
+			tail--;
 			// if previous item is null continue to go back until a non null item is reached
-			while (last != 0 && array[last] == null) {
-				last--;
+			while (tail != 0 && array[tail-1] == null) {
+				tail--;
 			}
 		}
+
 		// shrink if quarter empty
 		if (!this.isEmpty() && capacity / nbElts > 3) {
 			// shrink
@@ -93,20 +101,25 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 				}
 			}
 			array = tmp;
-			last = j;
+			tail = j;
 			capacity = capacity / 4;
+			//System.out.println("shrink....dequeued " + item + " tail = " + tail);
+			//if (tail == 0 && this.isEmpty() == false) {
+			//	System.out.println("tail is zero but queue is not empty");
+			//}
 		}
+		//System.out.println("dequeued " + item + " tail = " + tail);
 		return item;
 	}
 
-	public Item sample() throws java.util.NoSuchElementException {
+	public Item sample() {
 		if (this.isEmpty()) {
 			throw new java.util.NoSuchElementException("Trying to sample from empty queue");
 		}
-		int i = StdRandom.uniform(last);
+		int i = StdRandom.uniform(tail);
 
 		while (array[i] == null) {
-			i = StdRandom.uniform(0, last);
+			i = StdRandom.uniform(0, tail);
 		}
 		return array[i];
 	}
@@ -150,7 +163,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 			return current != iteratorArray.length;
 		}
 
-		public Item next() throws java.util.NoSuchElementException {
+		public Item next() {
 			if (hasNext()) {
 				return iteratorArray[current++];
 			} else {
@@ -164,7 +177,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
 	}
 
-	private int last = 0; // pointing just after last item of the queue
+	private int tail = 0; // pointing just after last item of the queue
 	private int nbElts = 0; // nb of elements in the queue
 	private int capacity = 2;
 	private Item[] array;

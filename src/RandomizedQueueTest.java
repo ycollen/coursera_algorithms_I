@@ -101,11 +101,11 @@ public class RandomizedQueueTest {
 
 	}
 
-	@Test(expected = java.util.NoSuchElementException.class)
+	@Test
 	public void testNextOnEmptyIterator() {
 
 		RandomizedQueue<Integer> q = new RandomizedQueue<Integer>();
-		int max = 64;
+		int max = 1024;
 		for (int i = 0; i < max; i++) {
 			q.enqueue(i);
 		}
@@ -117,7 +117,13 @@ public class RandomizedQueueTest {
 			assertNotNull("should not be null", itValue);
 			System.out.println("iterator value " + itValue);
 		}
-		it.next();
+		//it.next();
 	}
 
+	@Test(expected = java.util.NoSuchElementException.class)
+	public void testNextOnEmptyQueue(){
+		RandomizedQueue<Integer> q = new RandomizedQueue<Integer>();
+		Iterator<Integer> it = q.iterator();
+		it.next();
+	}
 }
