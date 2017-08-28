@@ -125,4 +125,11 @@ public class DequeTest {
 		aDeque.removeLast();
 		assertEquals("empty", true, aDeque.isEmpty());
 	}
+	
+	@Test(expected = java.util.NoSuchElementException.class)
+	public void testNextOnEmptyDeque(){
+		Deque<Integer> q = new Deque<Integer>();
+		Iterator<Integer> it = q.iterator();
+		it.next();
+	}
 }
