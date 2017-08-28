@@ -145,17 +145,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 			iteratorArray = (Item[]) new Object[randomizedQueue.size()];
 			RandomizedQueue<Item> copy = new RandomizedQueue();
 			current = 0;
+			int k = 0;
 			for (int i = 0; i < randomizedQueue.capacity; i++) {
 				if (randomizedQueue.array[i] != null) {
-					copy.enqueue(array[i]);
+					iteratorArray[k] = array[i];
+					k++;
 				}
 			}
 			// fill iterator array by dequeuing the copy of randomized array
-			int k = 0;
-			while (copy.isEmpty() == false) {
-				this.iteratorArray[k] = copy.dequeue();
-				k++;
-			}
+			StdRandom.shuffle(iteratorArray);
+			//int k = 0;
+			//while (copy.isEmpty() == false) {
+			//	this.iteratorArray[k] = copy.dequeue();
+			//	k++;
+			//}
 			// System.out.println("finished building iterator");
 		}
 
