@@ -56,11 +56,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		if (this.isEmpty()) {
 			throw new java.util.NoSuchElementException("Trying to dequeue from an empty queue");
 		}
-		//System.out.println("tail = " + tail);
-
-		//if (tail == 0) {
-		//	System.out.println("tail = " + tail);
-		//}
 		int i = StdRandom.uniform(tail);
 		while (array[i] == null) {
 			i = StdRandom.uniform(tail);
@@ -69,14 +64,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	}
 
 	private Item dequeue(int i) {
-		// System.out.println("dequeuing " + i);
-		// System.out.println("capacity " + capacity);
-		// System.out.println("nbElts " + this.size());
 		Item item = array[i];
 		array[i] = null;
 		
-		//System.out.println("tail value before dequeueing = " + tail);
-		//System.out.println("Dequeuing " + i + " nb elts = " + nbElts + " capacity = " + capacity);
 		nbElts--;
 		// if last item of queue was removed, update last pointer item
 		if (tail == i + 1) {
@@ -103,12 +93,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 			array = tmp;
 			tail = j;
 			capacity = capacity / 4;
-			//System.out.println("shrink....dequeued " + item + " tail = " + tail);
-			//if (tail == 0 && this.isEmpty() == false) {
-			//	System.out.println("tail is zero but queue is not empty");
-			//}
 		}
-		//System.out.println("dequeued " + item + " tail = " + tail);
 		return item;
 	}
 
@@ -152,14 +137,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 					k++;
 				}
 			}
-			// fill iterator array by dequeuing the copy of randomized array
 			StdRandom.shuffle(iteratorArray);
-			//int k = 0;
-			//while (copy.isEmpty() == false) {
-			//	this.iteratorArray[k] = copy.dequeue();
-			//	k++;
-			//}
-			// System.out.println("finished building iterator");
 		}
 
 		public boolean hasNext() {
