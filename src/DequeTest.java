@@ -82,4 +82,47 @@ public class DequeTest {
 		Deque<String> deque = new Deque<String>();
 		deque.addLast(null);
 	}
+	
+	@Test
+	public void addFirstRemoveLast() {
+		Deque<Double> aDeque = new Deque<Double>();
+		aDeque.addFirst(0.4);
+		aDeque.removeLast();
+		assertEquals("empty", true, aDeque.isEmpty());
+		aDeque.addFirst(0.4);
+		aDeque.addFirst(0.4);
+		aDeque.removeLast();
+		aDeque.addFirst(0.4);
+		aDeque.addFirst(0.4);
+		aDeque.removeLast();
+		aDeque.removeLast();
+		aDeque.removeLast();
+		aDeque.addFirst(0.4);
+		aDeque.removeLast();
+		assertEquals("empty", true, aDeque.isEmpty());
+	}
+	
+	@Test
+	public void addFirstRemoveFirst() {
+		Deque<Double> aDeque = new Deque<Double>();
+		aDeque.addFirst(0.4);
+		aDeque.removeFirst();
+		assertEquals("empty", true, aDeque.isEmpty());
+	}
+	
+	@Test
+	public void addLastRemoveFirst() {
+		Deque<Double> aDeque = new Deque<Double>();
+		aDeque.addLast(0.4);
+		aDeque.removeFirst();
+		assertEquals("empty", true, aDeque.isEmpty());
+	}
+	
+	@Test
+	public void addLastRemoveLast() {
+		Deque<Double> aDeque = new Deque<Double>();
+		aDeque.addLast(0.4);
+		aDeque.removeLast();
+		assertEquals("empty", true, aDeque.isEmpty());
+	}
 }

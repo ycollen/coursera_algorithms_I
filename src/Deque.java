@@ -4,8 +4,8 @@ public class Deque<Item> implements Iterable<Item> {
 
 	public Deque() {
 		size = 0;
-		first = null;
-		last = null;
+		head = null;
+		tail = null;
 	}
 
 	public boolean isEmpty() {
@@ -16,54 +16,85 @@ public class Deque<Item> implements Iterable<Item> {
 		return size;
 	}
 
-	public void addFirst(Item item) throws java.lang.IllegalArgumentException{
+	public void addFirst(Item item) {
 		if (item == null) {
 			throw new java.lang.IllegalArgumentException("Trying to add null item");
 		}
 		Node node = new Node();
 		node.item = item;
-		node.next = first;
+		// new node next points to old head
+		node.next = head;
 		node.previous = null;
 		if (size == 0) {
-			last = node;
+			tail = node;
 		}
 		node.previous = null;
-		first = node;
+		// previous head (if any e.g head will be null in case of previously empty deque)
+		// points to new node backwards
+		if(head!=null) {
+			head.previous = node;
+		}
+		// new head points to new node
+		head = node;
 		size++;
 	}
 
-	public void addLast(Item item) throws java.lang.IllegalArgumentException{
+	public void addLast(Item item) {
 		if (item == null) {
 			throw new java.lang.IllegalArgumentException("Trying to add null item");
 		}
-		Node node = new Node();
-		node.item = item;
-		node.next = null;
-		node.previous = last;
-		last.next = node;
-		last = node;
+		Node newNode = new Node();
+		newNode.item = item;
+		newNode.next = null;
+		// previous item is old tail
+		newNode.previous = tail;
+		// next item of previous tail (if not null e.g previously empty) points to new
+		// item
+		if (tail != null) {
+			tail.next = newNode;
+		}
+		// new tail points to new node
+		tail = newNode;
+
+		if (size == 0) {
+			// just one element, head = tail
+			head = newNode;
+		}
 		size++;
 	}
 
-	public Item removeFirst() throws java.util.NoSuchElementException {
+	public Item removeFirst() {
 		if (size == 0) {
 			throw new java.util.NoSuchElementException();
 		}
-		Node currentFirst = first;
-		first = first.next;
-		first.previous = null;
+		Node currentFirst = head;
+		// new head points to previous head
+		head = head.next;
+		// head can be null in case of size == 1
+		if (head != null) {
+			head.previous = null;
+		}
 		size--;
+		if (size == 0) {
+			tail = head;
+		}
 		return currentFirst.item;
 	}
 
-	public Item removeLast() throws java.util.NoSuchElementException {
+	public Item removeLast() {
 		if (size == 0) {
 			throw new java.util.NoSuchElementException();
 		}
-		Node currentLast = last;
-		last = currentLast.previous;
-		last.next = null;
+		Node currentLast = tail;
+		tail = currentLast.previous;
+		// tail can be null in case of size == 1
+		if (tail != null) {
+			tail.next = null;
+		}
 		size--;
+		if (size == 0) {
+			head = tail;
+		}
 		return currentLast.item;
 	}
 
@@ -79,7 +110,7 @@ public class Deque<Item> implements Iterable<Item> {
 
 	private class DequeIterator implements Iterator<Item> {
 		public DequeIterator() {
-			current = first;
+			current = head;
 		}
 
 		@Override
@@ -98,8 +129,8 @@ public class Deque<Item> implements Iterable<Item> {
 
 	}
 
-	private Node first;
-	private Node last;
+	private Node head;
+	private Node tail;
 	private int size;
 
 }
