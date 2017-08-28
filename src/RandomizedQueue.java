@@ -19,100 +19,46 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		if (item == null) {
 			throw new java.lang.IllegalArgumentException("Trying to enqueue null item");
 		}
+		array[nbElts] = item;
+		nbElts++;
 		// check if full, resize
-		if (tail == capacity) {
-			// if there are holes, compact before resizing
-			if (nbElts < capacity) {
-				this.compact();
-			} else {
-				// if full, resize twice the current capacity
-				this.resize(capacity * 2);
-				capacity = capacity * 2;
-			}
-		}
-		// add item at last position and increment last
-		array[tail++] = item;
-		this.nbElts++;
-	}
+		if (nbElts == capacity) {
+			// if full, resize twice the current capacity
+			this.resize(capacity * 2);
+			capacity = capacity * 2;
 
-	private void compact() {
-		Item[] tmp = (Item[]) new Object[capacity];
-		// iterate through from position 0 to last item
-		// pointer to next element after last in tmp array
-		int j = 0;
-		for (int i = 0; i < tail; i++) {
-			// if an item is present copy it
-			if (array[i] != null) {
-				tmp[j] = array[i];
-				j++;
-			}
 		}
-		array = tmp;
-		// update last pointer
-		tail = j;
+
 	}
 
 	public Item dequeue() {
 		if (this.isEmpty()) {
 			throw new java.util.NoSuchElementException("Trying to dequeue from an empty queue");
 		}
-		int i = StdRandom.uniform(tail);
-		while (array[i] == null) {
-			i = StdRandom.uniform(tail);
-		}
-		return dequeue(i);
-	}
-
-	private Item dequeue(int i) {
+		int i = StdRandom.uniform(nbElts);
 		Item item = array[i];
-		array[i] = null;
-		
-		nbElts--;
-		// if last item of queue was removed, update last pointer item
-		if (tail == i + 1) {
-			tail--;
-			// if previous item is null continue to go back until a non null item is reached
-			while (tail != 0 && array[tail-1] == null) {
-				tail--;
-			}
-		}
-
-		// shrink if quarter empty
-		if (!this.isEmpty() && capacity / nbElts > 3) {
-			// shrink
-			// System.out.println("shrinking...");
-			Item[] tmp = (Item[]) new Object[capacity / 4];
-			// point to after last item in tmp
-			int j = 0;
-			for (int k = 0; k < capacity; k++) {
-				if (array[k] != null) {
-					tmp[j] = array[k];
-					j++;
-				}
-			}
-			array = tmp;
-			tail = j;
+		array[i] = array[--nbElts];
+		array[nbElts] = null;
+		if (nbElts <= capacity / 4) {
+			this.resize(capacity/4);
 			capacity = capacity / 4;
 		}
 		return item;
 	}
 
+
 	public Item sample() {
 		if (this.isEmpty()) {
 			throw new java.util.NoSuchElementException("Trying to sample from empty queue");
 		}
-		int i = StdRandom.uniform(tail);
-
-		while (array[i] == null) {
-			i = StdRandom.uniform(0, tail);
-		}
+		int i = StdRandom.uniform(nbElts);
 		return array[i];
 	}
 
 	private void resize(int newCapacity) {
 		// new temp array
 		Item[] temp = (Item[]) new Object[newCapacity];
-		for (int i = 0; i < capacity; i++) {
+		for (int i = 0; i < nbElts; i++) {
 			// copy all current elements to the new array
 			// assume array is always full for the time being
 			temp[i] = array[i];
@@ -158,7 +104,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
 	}
 
-	private int tail = 0; // pointing just after last item of the queue
 	private int nbElts = 0; // nb of elements in the queue
 	private int capacity = 2;
 	private Item[] array;
