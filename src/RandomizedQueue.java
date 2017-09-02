@@ -5,6 +5,7 @@ import edu.princeton.cs.algs4.StdRandom;
 public class RandomizedQueue<Item> implements Iterable<Item> {
 	public RandomizedQueue() {
 		array = (Item[]) new Object[capacity];
+
 	}
 
 	public boolean isEmpty() {
@@ -19,8 +20,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		if (item == null) {
 			throw new java.lang.IllegalArgumentException("Trying to enqueue null item");
 		}
-		array[nbElts] = item;
-		nbElts++;
+		//if (capacity == 0) {
+		//	array = (Item[]) new Object[capacity];
+
+		//}
+		//if ()
+		//System.out.println("nbElts = " + nbElts);
 		// check if full, resize
 		if (nbElts == capacity) {
 			// if full, resize twice the current capacity
@@ -28,6 +33,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 			capacity = capacity * 2;
 
 		}
+		array[nbElts++] = item;
 
 	}
 
@@ -39,13 +45,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		Item item = array[i];
 		array[i] = array[--nbElts];
 		array[nbElts] = null;
-		if (nbElts <= capacity / 4) {
-			this.resize(capacity/4);
+		if (nbElts <= capacity / 4 && capacity > 2) {
+			this.resize(capacity / 4);
 			capacity = capacity / 4;
 		}
 		return item;
 	}
-
 
 	public Item sample() {
 		if (this.isEmpty()) {
@@ -76,12 +81,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 			iteratorArray = (Item[]) new Object[randomizedQueue.size()];
 			RandomizedQueue<Item> copy = new RandomizedQueue();
 			current = 0;
-			int k = 0;
-			for (int i = 0; i < randomizedQueue.capacity; i++) {
-				if (randomizedQueue.array[i] != null) {
-					iteratorArray[k] = array[i];
-					k++;
-				}
+			for (int i = 0; i < randomizedQueue.nbElts; i++) {
+				iteratorArray[i] = array[i];
 			}
 			StdRandom.shuffle(iteratorArray);
 		}

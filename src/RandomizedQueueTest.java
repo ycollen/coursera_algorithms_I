@@ -25,9 +25,9 @@ public class RandomizedQueueTest {
 		assertEquals("size is 1", 1, q.size());
 		q.enqueue("Item 2");
 		assertEquals("size is 2", 2, q.size());
+		q.dequeue();
 		q.enqueue("Item 3");
-		assertEquals("size is 3", 3, q.size());
-
+		q.dequeue();
 	}
 
 	@Test
@@ -125,5 +125,29 @@ public class RandomizedQueueTest {
 		RandomizedQueue<Integer> q = new RandomizedQueue<Integer>();
 		Iterator<Integer> it = q.iterator();
 		it.next();
+	}
+	
+	@Test
+	public void courseraTest1() {
+		RandomizedQueue<Integer> q = new RandomizedQueue<Integer>();
+		q.enqueue(1);
+		q.dequeue();
+		q.enqueue(1);
+		assertEquals("size 1", 1, q.size());
+		
+		  /*    5 random calls (0.7, 0.1, 0.0, 0.1, 0.1)
+		    java.lang.ArrayIndexOutOfBoundsException: 0
+
+		    RandomizedQueue.enqueue(RandomizedQueue.java:30)
+		    TestRandomizedQueue.random(TestRandomizedQueue.java:89)
+		    TestRandomizedQueue.test2(TestRandomizedQueue.java:216)
+		    TestRandomizedQueue.main(TestRandomizedQueue.java:1045)
+
+		    - sequence of dequeue operations was:
+		         rq.size()        ==> 0
+		         rq.enqueue(1)
+		         rq.dequeue()     ==> 1
+		         rq.size()        ==> 0
+		         rq.enqueue(1)*/
 	}
 }
