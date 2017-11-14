@@ -70,8 +70,7 @@ public class Point implements Comparable<Point> {
 			} else {
 				return Double.POSITIVE_INFINITY;
 			}
-		}
-		else {
+		} else {
 			return ((double) that.y - this.y) / ((double) that.x - this.x);
 		}
 	}
@@ -109,9 +108,26 @@ public class Point implements Comparable<Point> {
 	 *
 	 * @return the Comparator that defines this ordering on points
 	 */
-	/*
-	 * public Comparator<Point> slopeOrder() { YOUR CODE HERE return 0.0; }
-	 */
+	 public Comparator<Point> slopeOrder() { 
+		 return new SlopeOrderPointComparator();
+	 }
+
+	private class SlopeOrderPointComparator implements Comparator<Point> {
+
+		@Override
+		public int compare(Point o1, Point o2) {
+			Double slopeWithO1 = slopeTo(o1);
+			Double slopeWithO2 = slopeTo(o2);
+			if (slopeWithO1 < slopeWithO2) {
+				return -1;
+			} else if (slopeWithO1 > slopeWithO2) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+
+	}
 
 	/**
 	 * Returns a string representation of this point. This method is provide for
