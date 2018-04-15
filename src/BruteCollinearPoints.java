@@ -61,14 +61,14 @@ public class BruteCollinearPoints {
 						
 						// check if two points are similar
 						// check if the 4 points are collinear
-						System.out.println("p = " + points[p]);
-						System.out.println("q = " + points[q]);
-						System.out.println("r = " + points[r]);
-						System.out.println("s = " + points[s]);
+						//System.out.println("p = " + points[p]);
+						//System.out.println("q = " + points[q]);
+						//System.out.println("r = " + points[r]);
+						//System.out.println("s = " + points[s]);
 
-						System.out.println("slope from p to q =" + points[p].slopeTo(points[q]));
-						System.out.println("slope from p to r =" + points[p].slopeTo(points[r]));
-						System.out.println("slope from p to s =" + points[p].slopeTo(points[s]));
+						//System.out.println("slope from p to q =" + points[p].slopeTo(points[q]));
+						//System.out.println("slope from p to r =" + points[p].slopeTo(points[r]));
+						//System.out.println("slope from p to s =" + points[p].slopeTo(points[s]));
 
 						if (points[p].slopeTo(points[q]) == points[p].slopeTo(points[r])
 								&& points[p].slopeTo(points[r]) == points[p].slopeTo(points[s])) {
