@@ -72,4 +72,9 @@ public class PointTest {
 		assertEquals(1, result);
 	}
 
+	@Test (expected = java.lang.NullPointerException.class)
+	public void testNullArgument() {
+		Point referencePoint = new Point(1, 1);
+		referencePoint.slopeTo(null);
+	}
 }
