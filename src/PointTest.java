@@ -77,4 +77,12 @@ public class PointTest {
 		Point referencePoint = new Point(1, 1);
 		referencePoint.slopeTo(null);
 	}
+	
+	@Test
+	public void testPositiveZeroSlope() {
+		Point p = new Point (436, 149);
+		Point q = new Point(173, 149);
+	    	assertEquals(0.0, q.slopeTo(p), 0.0);
+	    	
+	}
 }

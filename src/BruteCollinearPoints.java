@@ -6,6 +6,7 @@ import java.util.TreeSet;
 public class BruteCollinearPoints {
 
 	public BruteCollinearPoints(Point[] points) {
+
 		if (points == null) {
 			throw new java.lang.IllegalArgumentException("null argument");
 		}
@@ -30,54 +31,40 @@ public class BruteCollinearPoints {
 		Point min;
 		Point max;
 		for (int p = 0; p < points.length; p++) {
-			min = points[p];
-			max = points[p];
 			for (int q = p + 1; q < points.length; q++) {
 				if (points[q] == null) {
 					throw new java.lang.IllegalArgumentException("null argument");
 				}
-				if (points[q].compareTo(min) < 0) {
-					min = points[q];
-				} else if (points[q].compareTo(max) > 0) {
-					max = points[q];
-				}
-
 				for (int r = q + 1; r < points.length; r++) {
 					if (points[r] == null) {
 						throw new java.lang.IllegalArgumentException("null argument");
-					}
-					if (points[r].compareTo(min) < 0) {
-						min = points[r];
-					} else if (points[r].compareTo(max) > 0) {
-						max = points[r];
 					}
 					for (int s = r + 1; s < points.length; s++) {
 						if (points[s] == null) {
 							throw new java.lang.IllegalArgumentException("null argument");
 						}
-						if (points[s].compareTo(min) < 0) {
-							min = points[s];
-						} else if (points[s].compareTo(max) > 0) {
-							max = points[s];
-						}
-
-						// check if two points are similar
-						// check if the 4 points are collinear
-						// System.out.println("p = " + points[p]);
-						// System.out.println("q = " + points[q]);
-						// System.out.println("r = " + points[r]);
-						// System.out.println("s = " + points[s]);
-
-						// System.out.println("slope from p to q =" + points[p].slopeTo(points[q]));
-						// System.out.println("slope from p to r =" + points[p].slopeTo(points[r]));
-						// System.out.println("slope from p to s =" + points[p].slopeTo(points[s]));
 
 						if (points[p].slopeTo(points[q]) == points[p].slopeTo(points[r])
 								&& points[p].slopeTo(points[r]) == points[p].slopeTo(points[s])) {
+//							System.out.println("p = " + points[p]);
+//							System.out.println("q = " + points[q]);
+//							System.out.println("r = " + points[r]);
+//							System.out.println("s = " + points[s]);
+//
+//							System.out.println("slope from p to q =" + points[p].slopeTo(points[q]));
+//							System.out.println("slope from p to r =" + points[p].slopeTo(points[r]));
+//							System.out.println("slope from p to s =" + points[p].slopeTo(points[s]));
+							
+							Point[] collinearPoints = new Point[4];
+							collinearPoints[0] = points[p];
+							collinearPoints[1] = points[q];
+							collinearPoints[2] = points[r];
+							collinearPoints[3] = points[s];
+							Arrays.sort(collinearPoints);
 							// points are collinear
 							this.numberOfSegments++;
 							// add line segment
-							segments.add(new LineSegment(min, max));
+							segments.add(new LineSegment(collinearPoints[0], collinearPoints[3]));
 						}
 					}
 				}
