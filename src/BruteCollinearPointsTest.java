@@ -82,20 +82,21 @@ public class BruteCollinearPointsTest {
 			// System.out.println("x = " + x);
 		}
 		// draw the points
-		StdDraw.enableDoubleBuffering();
-		StdDraw.setXscale(0, 32768);
-		StdDraw.setYscale(0, 32768);
-		for (Point p : points) {
-			p.draw();
-		}
-		StdDraw.show();
-		// print and draw the line segments
+//		StdDraw.enableDoubleBuffering();
+//		StdDraw.setXscale(0, 32768);
+//		StdDraw.setYscale(0, 32768);
+//		for (Point p : points) {
+//			p.draw();
+//		}
+//		StdDraw.show();
+		// compute the line segments
 		BruteCollinearPoints collinear = new BruteCollinearPoints(points);
-		for (LineSegment segment : collinear.segments()) {
-			StdOut.println(segment);
-			segment.draw();
-		}
-		StdDraw.show();
+//		// Draw the line segments
+//		for (LineSegment segment : collinear.segments()) {
+//			StdOut.println(segment);
+//			segment.draw();
+//		}
+//		StdDraw.show();
 		return collinear;
 	}
 
