@@ -5,19 +5,20 @@ import java.util.TreeSet;
 
 public class BruteCollinearPoints {
 
-	public BruteCollinearPoints(Point[] points) {
-
-		if (points == null) {
+	public BruteCollinearPoints(Point[] inputPoints) {
+		if (inputPoints == null) {
 			throw new java.lang.IllegalArgumentException("null argument");
 		}
 		this.numberOfSegments = 0;
 		segments = new Vector<LineSegment>();
 		Point previousPoint = null;
-		for (int i = 0; i < points.length; i++) {
-			if (points[i] == null) {
+		for (int i = 0; i < inputPoints.length; i++) {
+			if (inputPoints[i] == null) {
 				throw new java.lang.IllegalArgumentException("null argument");
 			}
 		}
+		// copy array to avoid modifying it
+		Point[] points = Arrays.copyOf(inputPoints, inputPoints.length);
 		Arrays.sort(points);
 		for (int i = 0; i < points.length; i++) {
 			if (previousPoint != null && previousPoint.compareTo(points[i]) == 0) {
