@@ -75,7 +75,7 @@ public class FastCollinearPointsTest {
 		FastCollinearPoints points = new FastCollinearPoints(fourCollinearPoints);
 	}
 
-	public Point[] readFile(String fileName) {
+	public FastCollinearPoints getCollinearPointsFromFile(String fileName) {
 		// read the n points from a file
 		In in = new In(fileName);
 		int n = in.readInt();
@@ -84,7 +84,7 @@ public class FastCollinearPointsTest {
 			int x = in.readInt();
 			int y = in.readInt();
 			points[i] = new Point(x, y);
-			System.out.println("x = " + x);
+			// System.out.println("x = " + x);
 		}
 		// draw the points
 		StdDraw.enableDoubleBuffering();
@@ -94,19 +94,24 @@ public class FastCollinearPointsTest {
 			p.draw();
 		}
 		StdDraw.show();
-	    // print and draw the line segments
-	    FastCollinearPoints collinear = new FastCollinearPoints(points);
-	    for (LineSegment segment : collinear.segments()) {
-	        StdOut.println(segment);
-	        segment.draw();
-	    }
-	    StdDraw.show();
-		return points;
+		// compute the line segments
+		FastCollinearPoints collinear = new FastCollinearPoints(points);
+		// Draw the line segments
+		for (LineSegment segment : collinear.segments()) {
+			StdOut.println(segment);
+			segment.draw();
+		}
+		StdDraw.show();
+		return collinear;
 	}
 
 	@Test
-	public void testInput1() {
-		System.out.println("Working Directory = " + System.getProperty("user.dir"));
-		Point[] points = readFile("testdata/collinear/input20.txt");
+	public void testInput8() {
+		FastCollinearPoints colPoints = getCollinearPointsFromFile("testdata/collinear/input8.txt");
+		LineSegment[] lineSegments = colPoints.segments();
+		assertEquals("2 line segments", 2, lineSegments.length);
+		assertEquals("(10 000, 0) -> (0, 10 000)", "(10000, 0) -> (0, 10000)", lineSegments[0].toString());
+		assertEquals("(3000, 4000) -> (20000, 21000)", "(3000, 4000) -> (20000, 21000)", lineSegments[1].toString());
+
 	}
 }

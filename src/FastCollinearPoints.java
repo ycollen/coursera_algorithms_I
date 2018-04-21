@@ -38,7 +38,7 @@ public class FastCollinearPoints {
 		for (int i = 0; i < points.length; i++) {
 			// Think of p as the origin.
 			Point p = points[i];
-			
+
 			// Sort the points according to the slopes they make with p.
 			Arrays.sort(points, p.slopeOrder());
 			// Check if any 3 (or more) adjacent points in the sorted order have equal
@@ -52,27 +52,28 @@ public class FastCollinearPoints {
 				if (slopeTo == previousSlope) {
 					consecutivePointsWithSameSlope++;
 				}
-				if (consecutivePointsWithSameSlope > 2 && (j == points.length - 1 || p.slopeTo(points[j]) != previousSlope)) {
-					// collinear points - get min and max point and add as segment
-					Point minPoint = points[j - 1];
-					Point maxPoint = points[j - 1];
-					for (int k = 1; k < consecutivePointsWithSameSlope; k++) {
-						if (minPoint.compareTo(points[j - 1 - k]) == 1) {
-							// minPoint is greater than point being examined, change minPoint
-							minPoint = points[j - 1 - k];
-						}
-						if (maxPoint.compareTo(points[j - 1 - k]) == -1) {
-							// maxPoint is smaller than point being examined, change maxPoint
-							maxPoint = points[j - 1 - k];
-						}
+				if (consecutivePointsWithSameSlope > 2
+						&& (j == points.length - 1 || p.slopeTo(points[j]) != previousSlope)) {
+					if (j == points.length - 1 && p.slopeTo(points[j]) == previousSlope) {
+						// last element of array has same slope as previous, include it in
+						consecutivePointsWithSameSlope++;
+						j++;
 					}
-					consecutivePointsWithSameSlope = 1;
+					// collinear points - get min and max point and add as segment
+					Point[] collinearPoints = new Point[consecutivePointsWithSameSlope + 1];
+					collinearPoints[0] = p;
+					for (int k = 1; k <= consecutivePointsWithSameSlope; k++) {
+						collinearPoints[k] = points[j - k];
+					}
+					Arrays.sort(collinearPoints);
 					// add segment based on min and max point if segment is not already existing
-					
-					segments.add(new LineSegment(minPoint, maxPoint));
+					segments.add(new LineSegment(collinearPoints[0], collinearPoints[consecutivePointsWithSameSlope]));
 					numberOfSegments++;
+					consecutivePointsWithSameSlope = 1;
 				}
-				previousSlope = p.slopeTo(points[j]);
+				if (j != points.length) {
+					previousSlope = p.slopeTo(points[j]);
+				}
 			}
 			// remove point already examined
 			points = Arrays.copyOfRange(points, 1, points.length);
