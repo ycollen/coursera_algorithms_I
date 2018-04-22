@@ -37,13 +37,9 @@ public class FastCollinearPoints {
 			previousPoint = pointsForLoop[i];
 		}
 		// examine each point one by one to find its corresponding collinear points
-		for (int i = 0; i < pointsForLoop.length; i++) {
+		for (int i = 0; i < inputPoints.length; i++) {
 			// Think of p as the origin.
-			Point p = pointsForLoop[i];
-			Point myPoint = new Point(5220, 20333);
-			if (i == 92) {
-				System.out.println("stop");
-			}
+			Point p = pointsForLoop[0];
 			// Sort the points according to the slopes they make with p.
 			Point[] points = Arrays.copyOf(pointsForLoop, pointsForLoop.length);
 			Arrays.sort(points, p.slopeOrder());
@@ -75,7 +71,7 @@ public class FastCollinearPoints {
 				previousSlope = slopeTo;
 			}
 			// remove point already examined
-			pointsForLoop = Arrays.copyOfRange(points, 1, points.length);
+			pointsForLoop = Arrays.copyOfRange(pointsForLoop, 1, pointsForLoop.length);
 		}
 
 	}

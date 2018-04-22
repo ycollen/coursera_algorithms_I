@@ -126,12 +126,18 @@ public class FastCollinearPointsTest {
 	}
 	
 	@Test
-	public void testInput20() {
-		FastCollinearPoints colPoints = getCollinearPointsFromFile("testdata/collinear/input20.txt");
+	public void testInput40() {
+		FastCollinearPoints colPoints = getCollinearPointsFromFile("testdata/collinear/input40.txt");
 		//LineSegment[] lineSegments = colPoints.segments();
 		//assertEquals("2 line segments", 2, lineSegments.length);
 		//assertEquals("(10 000, 0) -> (0, 10 000)", "(10000, 0) -> (0, 10000)", lineSegments[0].toString());
 		//assertEquals("(3000, 4000) -> (20000, 21000)", "(3000, 4000) -> (20000, 21000)", lineSegments[1].toString());
+
+	}
+	
+	@Test
+	public void testHorizontal25() {
+		FastCollinearPoints colPoints = getCollinearPointsFromFile("testdata/collinear/horizontal25.txt");
 
 	}
 }
