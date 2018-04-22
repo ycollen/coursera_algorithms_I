@@ -121,8 +121,13 @@ public class Point implements Comparable<Point> {
 
 		@Override
 		public int compare(Point o1, Point o2) {
+			//System.out.println("comparing " + o1 + " and " + o2 +"\n");
+			//System.out.println("reference point is " + this +"\n");
 			Double slopeWithO1 = slopeTo(o1);
 			Double slopeWithO2 = slopeTo(o2);
+			//System.out.println("slope with " + o1 + " is " + slopeWithO1 + "\n");
+			//System.out.println("slope with " + o2 + " is " + slopeWithO2 + "\n");
+
 			if (slopeWithO1 < slopeWithO2) {
 				return -1;
 			} else if (slopeWithO1 > slopeWithO2) {

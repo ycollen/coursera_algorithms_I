@@ -47,12 +47,13 @@ public class FastCollinearPoints {
 			// slopes with respect to p. If so, these points, together with p, are
 			// collinear
 			int consecutivePointsWithSameSlope = 0;
-			// index 0 is p as a point has slope negative infinity wrt itself
-			double previousSlope = p.slopeTo(points[1]);
+			double previousSlope = Double.NEGATIVE_INFINITY;
+			// index 0 is p as a point has slope negative infinity wrt itself, start with 1
 			for (int j = 1; j < points.length; j++) {
 				double slopeTo = p.slopeTo(points[j]);
 				if (consecutivePointsWithSameSlope == 0) {
 					// first point - no previous slope
+					previousSlope = p.slopeTo(points[1]);
 					consecutivePointsWithSameSlope++;
 				} else { // not first point
 					if (slopeTo == previousSlope) {
@@ -68,8 +69,9 @@ public class FastCollinearPoints {
 						if (consecutivePointsWithSameSlope > 2) {
 							computeLineSegments(points, p, j - consecutivePointsWithSameSlope, j - 1,
 									consecutivePointsWithSameSlope);
-							consecutivePointsWithSameSlope = 0;
 						}
+						// slope has changed, reinitialise to 1
+						consecutivePointsWithSameSlope = 1;
 					}
 				}
 
