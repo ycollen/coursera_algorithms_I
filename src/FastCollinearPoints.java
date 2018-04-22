@@ -28,20 +28,24 @@ public class FastCollinearPoints {
 			}
 		}
 		// copy array to avoid modifying it
-		Point[] points = Arrays.copyOf(inputPoints, inputPoints.length);
-		Arrays.sort(points);
-		for (int i = 0; i < points.length; i++) {
-			if (previousPoint != null && previousPoint.compareTo(points[i]) == 0) {
+		Point[] pointsForLoop = Arrays.copyOf(inputPoints, inputPoints.length);
+		Arrays.sort(pointsForLoop);
+		for (int i = 0; i < pointsForLoop.length; i++) {
+			if (previousPoint != null && previousPoint.compareTo(pointsForLoop[i]) == 0) {
 				throw new java.lang.IllegalArgumentException("same point");
 			}
-			previousPoint = points[i];
+			previousPoint = pointsForLoop[i];
 		}
 		// examine each point one by one to find its corresponding collinear points
-		for (int i = 0; i < points.length; i++) {
+		for (int i = 0; i < pointsForLoop.length; i++) {
 			// Think of p as the origin.
-			Point p = points[i];
-
+			Point p = pointsForLoop[i];
+			Point myPoint = new Point(5220, 20333);
+			if (i == 92) {
+				System.out.println("stop");
+			}
 			// Sort the points according to the slopes they make with p.
+			Point[] points = Arrays.copyOf(pointsForLoop, pointsForLoop.length);
 			Arrays.sort(points, p.slopeOrder());
 			// Check if any 3 (or more) adjacent points in the sorted order have equal
 			// slopes with respect to p. If so, these points, together with p, are
@@ -68,31 +72,10 @@ public class FastCollinearPoints {
 					// slope has changed, reinitialise to 1
 					consecutivePointsWithSameSlope = 1;
 				}
-
-				// if (consecutivePointsWithSameSlope > 2
-				// && (j == points.length - 1 || p.slopeTo(points[j]) != previousSlope)) {
-				// if (j == points.length - 1 && p.slopeTo(points[j]) == previousSlope) {
-				// // last element of array has same slope as previous, include it in
-				// consecutivePointsWithSameSlope++;
-				// j++;
-				// }
-				// // collinear points - get min and max point and add as segment
-				// Point[] collinearPoints = new Point[consecutivePointsWithSameSlope + 1];
-				// collinearPoints[0] = p;
-				// for (int k = 1; k <= consecutivePointsWithSameSlope; k++) {
-				// collinearPoints[k] = points[j - k];
-				// }
-				// Arrays.sort(collinearPoints);
-				// // add segment based on min and max point if segment is not already existing
-				// segments.add(new LineSegment(collinearPoints[0],
-				// collinearPoints[consecutivePointsWithSameSlope]));
-				// numberOfSegments++;
-				// consecutivePointsWithSameSlope = 0;
-				// }
 				previousSlope = slopeTo;
 			}
 			// remove point already examined
-			points = Arrays.copyOfRange(points, 1, points.length);
+			pointsForLoop = Arrays.copyOfRange(points, 1, points.length);
 		}
 
 	}
