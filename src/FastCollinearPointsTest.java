@@ -86,22 +86,22 @@ public class FastCollinearPointsTest {
 			points[i] = new Point(x, y);
 			// System.out.println("x = " + x);
 		}
-		// draw the points
-		StdDraw.enableDoubleBuffering();
-		StdDraw.setXscale(0, 32768);
-		StdDraw.setYscale(0, 32768);
-		for (Point p : points) {
-			p.draw();
-		}
-		StdDraw.show();
+//		// draw the points
+//		StdDraw.enableDoubleBuffering();
+//		StdDraw.setXscale(0, 32768);
+//		StdDraw.setYscale(0, 32768);
+//		for (Point p : points) {
+//			p.draw();
+//		}
+//		StdDraw.show();
 		// compute the line segments
 		FastCollinearPoints collinear = new FastCollinearPoints(points);
-		// Draw the line segments
-		for (LineSegment segment : collinear.segments()) {
-			StdOut.println(segment);
-			segment.draw();
-		}
-		StdDraw.show();
+//		// Draw the line segments
+//		for (LineSegment segment : collinear.segments()) {
+//			StdOut.println(segment);
+//			segment.draw();
+//		}
+//		StdDraw.show();
 		return collinear;
 	}
 
@@ -112,6 +112,26 @@ public class FastCollinearPointsTest {
 		assertEquals("2 line segments", 2, lineSegments.length);
 		assertEquals("(10 000, 0) -> (0, 10 000)", "(10000, 0) -> (0, 10000)", lineSegments[0].toString());
 		assertEquals("(3000, 4000) -> (20000, 21000)", "(3000, 4000) -> (20000, 21000)", lineSegments[1].toString());
+
+	}
+	
+	@Test
+	public void testEquiDistant() {
+		FastCollinearPoints colPoints = getCollinearPointsFromFile("testdata/collinear/equidistant.txt");
+		//LineSegment[] lineSegments = colPoints.segments();
+		//assertEquals("2 line segments", 2, lineSegments.length);
+		//assertEquals("(10 000, 0) -> (0, 10 000)", "(10000, 0) -> (0, 10000)", lineSegments[0].toString());
+		//assertEquals("(3000, 4000) -> (20000, 21000)", "(3000, 4000) -> (20000, 21000)", lineSegments[1].toString());
+
+	}
+	
+	@Test
+	public void testInput20() {
+		FastCollinearPoints colPoints = getCollinearPointsFromFile("testdata/collinear/input20.txt");
+		//LineSegment[] lineSegments = colPoints.segments();
+		//assertEquals("2 line segments", 2, lineSegments.length);
+		//assertEquals("(10 000, 0) -> (0, 10 000)", "(10000, 0) -> (0, 10000)", lineSegments[0].toString());
+		//assertEquals("(3000, 4000) -> (20000, 21000)", "(3000, 4000) -> (20000, 21000)", lineSegments[1].toString());
 
 	}
 }

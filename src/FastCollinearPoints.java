@@ -46,44 +46,76 @@ public class FastCollinearPoints {
 			// Check if any 3 (or more) adjacent points in the sorted order have equal
 			// slopes with respect to p. If so, these points, together with p, are
 			// collinear
-			int consecutivePointsWithSameSlope = 1;
+			int consecutivePointsWithSameSlope = 0;
 			// index 0 is p as a point has slope negative infinity wrt itself
 			double previousSlope = p.slopeTo(points[1]);
-			for (int j = 2; j < points.length; j++) {
+			for (int j = 1; j < points.length; j++) {
 				double slopeTo = p.slopeTo(points[j]);
-				if (slopeTo == previousSlope) {
+				if (consecutivePointsWithSameSlope == 0) {
+					// first point - no previous slope
 					consecutivePointsWithSameSlope++;
-				}
-				if (consecutivePointsWithSameSlope > 2
-						&& (j == points.length - 1 || p.slopeTo(points[j]) != previousSlope)) {
-					if (j == points.length - 1 && p.slopeTo(points[j]) == previousSlope) {
-						// last element of array has same slope as previous, include it in
+				} else { // not first point
+					if (slopeTo == previousSlope) {
+						// same slope as previous
 						consecutivePointsWithSameSlope++;
-						j++;
+						// if last point and we have a line segment, add it
+						if (j == (points.length - 1) && consecutivePointsWithSameSlope > 2) {
+							computeLineSegments(points, p, j - consecutivePointsWithSameSlope + 1, j,
+									consecutivePointsWithSameSlope);
+						}
+					} else {
+						// we move to a new slope, compute line segment
+						if (consecutivePointsWithSameSlope > 2) {
+							computeLineSegments(points, p, j - consecutivePointsWithSameSlope, j - 1,
+									consecutivePointsWithSameSlope);
+							consecutivePointsWithSameSlope = 0;
+						}
 					}
-					// collinear points - get min and max point and add as segment
-					Point[] collinearPoints = new Point[consecutivePointsWithSameSlope + 1];
-					collinearPoints[0] = p;
-					for (int k = 1; k <= consecutivePointsWithSameSlope; k++) {
-						collinearPoints[k] = points[j - k];
-					}
-					Arrays.sort(collinearPoints);
-					// add segment based on min and max point if segment is not already existing
-					segments.add(new LineSegment(collinearPoints[0], collinearPoints[consecutivePointsWithSameSlope]));
-					numberOfSegments++;
-					consecutivePointsWithSameSlope = 1;
 				}
-				if (j != points.length) {
-					previousSlope = p.slopeTo(points[j]);
-				}
+
+//				if (consecutivePointsWithSameSlope > 2
+//						&& (j == points.length - 1 || p.slopeTo(points[j]) != previousSlope)) {
+//					if (j == points.length - 1 && p.slopeTo(points[j]) == previousSlope) {
+//						// last element of array has same slope as previous, include it in
+//						consecutivePointsWithSameSlope++;
+//						j++;
+//					}
+//					// collinear points - get min and max point and add as segment
+//					Point[] collinearPoints = new Point[consecutivePointsWithSameSlope + 1];
+//					collinearPoints[0] = p;
+//					for (int k = 1; k <= consecutivePointsWithSameSlope; k++) {
+//						collinearPoints[k] = points[j - k];
+//					}
+//					Arrays.sort(collinearPoints);
+//					// add segment based on min and max point if segment is not already existing
+//					segments.add(new LineSegment(collinearPoints[0], collinearPoints[consecutivePointsWithSameSlope]));
+//					numberOfSegments++;
+//					consecutivePointsWithSameSlope = 0;
+//				}
+				previousSlope = slopeTo;
 			}
 			// remove point already examined
 			points = Arrays.copyOfRange(points, 1, points.length);
 		}
+
 	}
 
 	public int numberOfSegments() {
 		return numberOfSegments;
+	}
+
+	private void computeLineSegments(Point[] pointArray, Point referencePoint, int indexFirstPoint, int indexLastPoint,
+			int nbConsecutivePoints) {
+		// collinear points - get min and max point and add as segment
+		Point[] collinearPoints = new Point[nbConsecutivePoints+1];
+		collinearPoints[0] = referencePoint;
+		for (int i = 0; i < nbConsecutivePoints; i++) {
+			collinearPoints[i+1] = pointArray[indexFirstPoint+i];
+		}
+		Arrays.sort(collinearPoints);
+		// add segment based on min and max point if segment is not already existing
+		segments.add(new LineSegment(collinearPoints[0], collinearPoints[nbConsecutivePoints]));
+		numberOfSegments++;
 	}
 
 	/**

@@ -80,9 +80,22 @@ public class PointTest {
 	
 	@Test
 	public void testPositiveZeroSlope() {
-		Point p = new Point (436, 149);
-		Point q = new Point(173, 149);
+		Point p = new Point (358, 435);
+		Point q = new Point(135, 435);
+		double slopeTo = p.slopeTo(q);
+		System.out.println("slope = " + slopeTo + "\n");
 	    	assertEquals(0.0, q.slopeTo(p), 0.0);
 	    	
 	}
+	
+	@Test
+	public void testZeroSlope() {
+		Point p = new Point (10000, 0);
+		Point q = new Point (13000, 0);
+		Point r = new Point(20000, 0);
+		double slopeTo = p.slopeTo(q);
+		double OtherSlopeTo = p.slopeTo(r);
+		assertEquals(0.0, slopeTo, OtherSlopeTo);
+	}
+	
 }
